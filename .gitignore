@@ -1,0 +1,12 @@
+.env
+.env*.local
+!.env.example
+node_modules
+.next
+.vercel
+dist
+coverage
+.npm-cache
+.tmp-supabase-agent-skills-*
+%SystemDrive%/
+supabase-mcp-login.*.txt
