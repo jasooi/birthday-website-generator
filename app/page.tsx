@@ -12,20 +12,14 @@ export default function HomePage() {
               <p className="text-lg font-black leading-tight sm:text-2xl">
                 Birthday Page Generator
               </p>
-              <p className="mt-0.5 text-sm font-medium text-blue-50">
-                Build a tiny countdown surprise.
-              </p>
             </div>
           </div>
 
           <div className="px-4 py-5 sm:px-6 sm:py-6">
             <div className="mb-5">
               <h1 className="text-2xl font-black leading-tight text-slate-950 sm:text-3xl">
-                Make a birthday link that flips into a card at midnight.
+                Did you forget to wish your friend happy birthday? Make a surprise birthday meme page for your friend!
               </h1>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600 sm:text-base">
-                Fill in the essentials and we will generate a shareable countdown page.
-              </p>
             </div>
             <BirthdayForm />
           </div>

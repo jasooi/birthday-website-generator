@@ -3,11 +3,14 @@ export type BirthdayPageRecord = {
   friend_name: string;
   birthday_month: number;
   birthday_day: number;
+  surprise_time: string;
   timezone: string;
   message: string;
   photo_url: string | null;
   photo_storage_path: string | null;
   fallback_meme_id: number;
+  background_image_id: number;
+  reveal_background_color: string;
   birthday_at_utc: string;
   expires_at_utc: string;
 };
@@ -18,6 +21,8 @@ export type BirthdayPageViewModel = {
   message: string;
   photoUrl: string | null;
   fallbackMemeId: number;
+  backgroundImageId: number;
+  revealBackgroundColor: string;
   birthdayAtUtc: string;
   expiresAtUtc: string;
 };

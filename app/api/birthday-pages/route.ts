@@ -7,7 +7,15 @@ import { validateBirthdayForm, validatePhotoFile } from "@/lib/validation";
 export const runtime = "nodejs";
 
 function getOrigin(request: NextRequest) {
-  return process.env.NEXT_PUBLIC_SITE_URL ?? request.nextUrl.origin;
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    return process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "");
+  }
+
+  if (process.env.VERCEL === "1") {
+    return "https://birthday-website-generator-beta.vercel.app";
+  }
+
+  return request.nextUrl.origin;
 }
 
 export async function POST(request: NextRequest) {
@@ -36,7 +44,7 @@ export async function POST(request: NextRequest) {
     const response: CreateBirthdayPageResponse = {
       ok: true,
       slug: page.slug,
-      url: `${getOrigin(request)}/b/${page.slug}`,
+      url: `${getOrigin(request)}/${page.slug}`,
       birthdayAtUtc: page.birthday_at_utc,
       expiresAtUtc: page.expires_at_utc
     };

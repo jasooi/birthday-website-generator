@@ -47,7 +47,10 @@ export function BirthdayPageClient({ page }: { page: BirthdayPageViewModel }) {
 
   if (state === "expired") {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#f7f3ec] px-4 text-center">
+      <main
+        className="flex min-h-screen items-center justify-center bg-[#f7f3ec] px-4 text-center"
+        style={{ fontFamily: '"Times New Roman", Times, serif' }}
+      >
         <p className="text-2xl font-bold text-slate-900">This birthday page has expired.</p>
       </main>
     );
@@ -60,14 +63,21 @@ export function BirthdayPageClient({ page }: { page: BirthdayPageViewModel }) {
         message={page.message}
         photoUrl={page.photoUrl}
         fallbackMemeId={page.fallbackMemeId}
+        revealBackgroundColor={page.revealBackgroundColor}
       />
     );
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#f7f3ec] px-4 py-10">
+    <main
+      className="flex min-h-screen items-center justify-center bg-cover bg-center px-4 py-10"
+      style={{
+        backgroundImage: `url(/backgrounds/background-${page.backgroundImageId}.jpg)`,
+        fontFamily: '"Times New Roman", Times, serif'
+      }}
+    >
       <section className="w-full text-center">
-        <p className="mb-8 text-2xl font-bold text-slate-900 sm:text-3xl">
+        <p className="mx-auto mb-8 inline-block max-w-3xl rounded-md bg-white px-5 py-3 text-2xl font-bold text-slate-950 shadow-soft sm:text-4xl">
           {page.friendName}&apos;s birth anniversary
         </p>
         <div className="mx-auto flex justify-center">

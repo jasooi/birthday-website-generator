@@ -6,7 +6,8 @@ import {
   ALLOWED_PHOTO_TYPES,
   MAX_FRIEND_NAME_LENGTH,
   MAX_MESSAGE_LENGTH,
-  MAX_PHOTO_BYTES
+  MAX_PHOTO_BYTES,
+  MONTH_OPTIONS
 } from "@/lib/constants";
 import type { CreateBirthdayPageResponse } from "@/lib/types";
 import { CopyLinkResult } from "./CopyLinkResult";
@@ -126,31 +127,74 @@ export function BirthdayForm() {
           <FieldError id="friend-name-error" message={fieldErrors.friendName} />
         </div>
 
+        <fieldset>
+          <legend className="block text-sm font-black text-slate-800">Birthday</legend>
+          <div className="mt-1.5 grid grid-cols-[0.85fr_1.3fr] gap-2">
+            <input
+              id="birthdayDay"
+              name="birthdayDay"
+              type="number"
+              min={1}
+              max={31}
+              inputMode="numeric"
+              aria-label="Birthday day"
+              aria-invalid={Boolean(fieldErrors.birthday)}
+              aria-describedby={fieldErrors.birthday ? "birthday-error" : undefined}
+              className="min-h-11 w-full rounded border border-slate-400 bg-white px-3 py-2 text-base text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-[#3d6fa8] focus:ring-4 focus:ring-blue-100"
+              placeholder="Day"
+              required
+            />
+            <select
+              id="birthdayMonth"
+              name="birthdayMonth"
+              defaultValue=""
+              aria-label="Birthday month"
+              aria-invalid={Boolean(fieldErrors.birthday)}
+              aria-describedby={fieldErrors.birthday ? "birthday-error" : undefined}
+              className="min-h-11 w-full rounded border border-slate-400 bg-white px-3 py-2 text-base text-slate-950 outline-none transition focus:border-[#3d6fa8] focus:ring-4 focus:ring-blue-100"
+              required
+            >
+              <option value="" disabled>
+                Month
+              </option>
+              {MONTH_OPTIONS.map((month) => (
+                <option key={month.value} value={month.value}>
+                  {month.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          <FieldError id="birthday-error" message={fieldErrors.birthday} />
+        </fieldset>
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label htmlFor="birthday" className="block text-sm font-black text-slate-800">
-            Birthday date
+          <label htmlFor="surpriseTime" className="block text-sm font-black text-slate-800">
+            Surprise time
           </label>
           <input
-            id="birthday"
-            name="birthday"
-            type="date"
-            aria-invalid={Boolean(fieldErrors.birthday)}
-            aria-describedby={fieldErrors.birthday ? "birthday-error" : undefined}
+            id="surpriseTime"
+            name="surpriseTime"
+            type="time"
+            defaultValue="00:00"
+            aria-invalid={Boolean(fieldErrors.surpriseTime)}
+            aria-describedby={fieldErrors.surpriseTime ? "surprise-time-error" : undefined}
             className="mt-1.5 min-h-11 w-full rounded border border-slate-400 bg-white px-3 py-2 text-base text-slate-950 outline-none transition focus:border-[#3d6fa8] focus:ring-4 focus:ring-blue-100"
             required
           />
-          <FieldError id="birthday-error" message={fieldErrors.birthday} />
+          <FieldError id="surprise-time-error" message={fieldErrors.surpriseTime} />
         </div>
-      </div>
 
-      <div>
-        <label htmlFor="timezone" className="block text-sm font-black text-slate-800">
-          Birthday timezone
-        </label>
-        <div className="mt-1.5">
-          <TimezoneSelect error={fieldErrors.timezone} />
+        <div>
+          <label htmlFor="timezone" className="block text-sm font-black text-slate-800">
+            Surprise timezone
+          </label>
+          <div className="mt-1.5">
+            <TimezoneSelect error={fieldErrors.timezone} />
+          </div>
+          <FieldError id="timezone-error" message={fieldErrors.timezone} />
         </div>
-        <FieldError id="timezone-error" message={fieldErrors.timezone} />
       </div>
 
       <div>

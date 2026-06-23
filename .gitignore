@@ -10,3 +10,5 @@ coverage
 .tmp-supabase-agent-skills-*
 %SystemDrive%/
 supabase-mcp-login.*.txt
+
+.vercel

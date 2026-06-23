@@ -1,4 +1,4 @@
-import { PHOTO_BUCKET } from "./constants";
+import { PHOTO_BUCKET, REVEAL_BACKGROUND_COLORS } from "./constants";
 import { calculateExpiryUtc, calculateNextBirthdayUtc } from "./time";
 import type { BirthdayPageRecord, BirthdayPageViewModel } from "./types";
 import type { ValidatedBirthdayInput } from "./validation";
@@ -18,6 +18,8 @@ export function toViewModel(record: BirthdayPageRecord): BirthdayPageViewModel {
     message: record.message,
     photoUrl: record.photo_url,
     fallbackMemeId: record.fallback_meme_id,
+    backgroundImageId: record.background_image_id ?? 1,
+    revealBackgroundColor: record.reveal_background_color ?? "#fff3c8",
     birthdayAtUtc: record.birthday_at_utc,
     expiresAtUtc: record.expires_at_utc
   };
@@ -79,10 +81,14 @@ export async function createBirthdayPage(
   const birthdayAtUtc = calculateNextBirthdayUtc(
     input.birthdayMonth,
     input.birthdayDay,
-    input.timezone
+    input.timezone,
+    input.surpriseTime
   );
   const expiresAtUtc = calculateExpiryUtc(birthdayAtUtc);
   const fallbackMemeId = Math.floor(Math.random() * 9) + 1;
+  const backgroundImageId = Math.floor(Math.random() * 3) + 1;
+  const revealBackgroundColor =
+    REVEAL_BACKGROUND_COLORS[Math.floor(Math.random() * REVEAL_BACKGROUND_COLORS.length)];
 
   for (let attempt = 0; attempt < 5; attempt += 1) {
     const slug = createSlug(input.friendName);
@@ -98,11 +104,14 @@ export async function createBirthdayPage(
           friend_name: input.friendName,
           birthday_month: input.birthdayMonth,
           birthday_day: input.birthdayDay,
+          surprise_time: input.surpriseTime,
           timezone: input.timezone,
           message: input.message,
           photo_url: upload?.url ?? null,
           photo_storage_path: upload?.storagePath ?? null,
           fallback_meme_id: fallbackMemeId,
+          background_image_id: backgroundImageId,
+          reveal_background_color: revealBackgroundColor,
           birthday_at_utc: birthdayAtUtc.toISO(),
           expires_at_utc: expiresAtUtc.toISO()
         })
@@ -134,7 +143,7 @@ export async function getBirthdayPageBySlug(supabase: SupabaseAdminClient, slug:
   const { data, error } = await supabase
     .from("birthday_pages")
     .select(
-      "slug,friend_name,birthday_month,birthday_day,timezone,message,photo_url,photo_storage_path,fallback_meme_id,birthday_at_utc,expires_at_utc"
+      "slug,friend_name,birthday_month,birthday_day,surprise_time,timezone,message,photo_url,photo_storage_path,fallback_meme_id,background_image_id,reveal_background_color,birthday_at_utc,expires_at_utc"
     )
     .eq("slug", slug)
     .maybeSingle<BirthdayPageRecord>();
