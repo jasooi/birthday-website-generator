@@ -4,8 +4,7 @@ import {
   MAX_MESSAGE_LENGTH,
   MAX_PHOTO_BYTES
 } from "./constants";
-import { DateTime } from "luxon";
-import { isValidTimezone, parseSurpriseTime } from "./time";
+import { isValidTimezone, parseBirthdayDate, parseSurpriseTime } from "./time";
 
 export type ValidatedBirthdayInput = {
   friendName: string;
@@ -20,28 +19,11 @@ export function normalizeText(value: FormDataEntryValue | null) {
   return typeof value === "string" ? value.replace(/\s+/g, " ").trim() : "";
 }
 
-function parseInteger(value: FormDataEntryValue | null) {
-  const normalized = normalizeText(value);
-  const parsed = Number(normalized);
-
-  return Number.isInteger(parsed) ? parsed : null;
-}
-
-function isPossibleMonthDay(month: number, day: number) {
-  for (let year = 2024; year < 2032; year += 1) {
-    if (DateTime.fromObject({ year, month, day }).isValid) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
 export function validateBirthdayForm(formData: FormData) {
   const fieldErrors: Record<string, string> = {};
   const friendName = normalizeText(formData.get("friendName"));
-  const birthdayMonth = parseInteger(formData.get("birthdayMonth"));
-  const birthdayDay = parseInteger(formData.get("birthdayDay"));
+  const birthday = normalizeText(formData.get("birthday"));
+  const parsedBirthday = parseBirthdayDate(birthday);
   const surpriseTime = normalizeText(formData.get("surpriseTime"));
   const timezone = normalizeText(formData.get("timezone"));
   const message = normalizeText(formData.get("message"));
@@ -52,16 +34,8 @@ export function validateBirthdayForm(formData: FormData) {
     fieldErrors.friendName = `Use ${MAX_FRIEND_NAME_LENGTH} characters or fewer.`;
   }
 
-  if (
-    !birthdayMonth ||
-    !birthdayDay ||
-    birthdayMonth < 1 ||
-    birthdayMonth > 12 ||
-    birthdayDay < 1 ||
-    birthdayDay > 31 ||
-    !isPossibleMonthDay(birthdayMonth, birthdayDay)
-  ) {
-    fieldErrors.birthday = "Choose a valid birthday day and month.";
+  if (!parsedBirthday) {
+    fieldErrors.birthday = "Choose a valid birthday date.";
   }
 
   if (!surpriseTime || !parseSurpriseTime(surpriseTime)) {
@@ -78,7 +52,7 @@ export function validateBirthdayForm(formData: FormData) {
     fieldErrors.message = `Use ${MAX_MESSAGE_LENGTH} characters or fewer.`;
   }
 
-  if (Object.keys(fieldErrors).length > 0 || !birthdayMonth || !birthdayDay) {
+  if (Object.keys(fieldErrors).length > 0 || !parsedBirthday) {
     return {
       ok: false as const,
       fieldErrors
@@ -89,8 +63,8 @@ export function validateBirthdayForm(formData: FormData) {
     ok: true as const,
     data: {
       friendName,
-      birthdayMonth,
-      birthdayDay,
+      birthdayMonth: parsedBirthday.month,
+      birthdayDay: parsedBirthday.day,
       surpriseTime,
       timezone,
       message

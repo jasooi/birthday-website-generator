@@ -18,7 +18,7 @@ export default function HomePage() {
           <div className="px-4 py-5 sm:px-6 sm:py-6">
             <div className="mb-5">
               <h1 className="text-2xl font-black leading-tight text-slate-950 sm:text-3xl">
-                Did you forget to wish your friend happy birthday? Make a surprise birthday meme page for your friend!
+                Make a surprise birthday meme page for your friend!
               </h1>
             </div>
             <BirthdayForm />

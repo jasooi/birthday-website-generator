@@ -27,15 +27,15 @@ export function BirthdayReveal({
         <h1 className="text-4xl font-black leading-tight text-slate-950 sm:text-6xl">
           Happy birthday {friendName}!
         </h1>
-        <div className="mx-auto mt-8 aspect-[4/3] w-full max-w-xl overflow-hidden rounded-lg border border-slate-200 bg-white shadow-soft">
+        <div className="mx-auto mt-8 w-full max-w-2xl overflow-hidden rounded-lg border border-slate-200 bg-white p-3 shadow-soft">
           <Image
             src={imageSrc}
             alt={`Birthday image for ${friendName}`}
             width={900}
             height={675}
             priority
-            className="h-full w-full object-cover"
-            sizes="(max-width: 640px) 92vw, 560px"
+            className="h-auto max-h-[68vh] w-full object-contain"
+            sizes="(max-width: 640px) 92vw, 672px"
           />
         </div>
         <p className="mx-auto mt-7 max-w-2xl text-xl font-medium leading-8 text-slate-800">

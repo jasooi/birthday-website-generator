@@ -4,7 +4,13 @@ import { Check, Clipboard, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
-export function CopyLinkResult({ url }: { url: string }) {
+export function CopyLinkResult({
+  url,
+  variant = "default"
+}: {
+  url: string;
+  variant?: "default" | "compact";
+}) {
   const [copied, setCopied] = useState(false);
   const path = new URL(url).pathname;
 
@@ -15,8 +21,14 @@ export function CopyLinkResult({ url }: { url: string }) {
   }
 
   return (
-    <div className="mt-6 rounded-lg border border-teal-200 bg-teal-50 p-4">
-      <p className="text-sm font-semibold text-teal-950">Your birthday page is ready</p>
+    <div
+      className={
+        variant === "compact"
+          ? "mb-5 rounded-lg border-2 border-[#e1528a] bg-white p-4 shadow-[0_4px_0_#f9a8c7]"
+          : "mt-6 rounded-lg border border-teal-200 bg-teal-50 p-4"
+      }
+    >
+      <p className="text-sm font-black text-slate-950">Your birthday page is ready</p>
       <p className="mt-2 break-all rounded-md bg-white px-3 py-3 text-sm text-slate-700">
         {url}
       </p>

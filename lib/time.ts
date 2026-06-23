@@ -1,5 +1,18 @@
 import { DateTime } from "luxon";
 
+export function parseBirthdayDate(value: string) {
+  const parsed = DateTime.fromISO(value, { zone: "utc" });
+
+  if (!parsed.isValid) {
+    return null;
+  }
+
+  return {
+    month: parsed.month,
+    day: parsed.day
+  };
+}
+
 export function isValidTimezone(timezone: string) {
   return DateTime.now().setZone(timezone).isValid;
 }
