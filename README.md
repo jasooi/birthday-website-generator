@@ -1,6 +1,9 @@
 # Birthday Website Generator
+A Next.js app that allows you to create temporary birthday websites for your friends who love memes. You upload a birthday meme, set the time and date you want the meme to be revealed and then generate a website containing a countdown, which you can send to your friend. When the countdown is over, the website transforms into a card with your meme and your message.
 
-A Next.js app for creating personalized birthday countdown and reveal pages.
+Try here: https://birthday-website-generator-beta.vercel.app/
+
+
 
 ## Local Setup
 
